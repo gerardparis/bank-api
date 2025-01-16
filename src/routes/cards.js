@@ -2,20 +2,19 @@ var express = require('express');
 var router = express.Router();
 var db = require('../database');
 
-router.get("/viewAccounts", async function (req, res) {
+router.get("/viewAccounts", async function (req, res, next) {
 
     try {
         const card = await db.Card.findOne({
-            where: { number: req.body.cardNumber },
+            where: { number: req.query.cardNumber },
             include: {
                 model: db.Account,
-                include: db.Person, // Include the person to fetch all accounts they own
+                include: db.Person,
             },
         });
 
         if (!card) {
             throw new Error('Card not found');
-
         }
 
         const personId = card.Account.Person.id;
@@ -27,7 +26,7 @@ router.get("/viewAccounts", async function (req, res) {
 
         res.status(200).send(JSON.stringify(accounts));
     } catch (error) {
-        res.status(500).send(error);
+        return next(error);
     }
 
 });
