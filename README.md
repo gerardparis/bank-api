@@ -7,48 +7,60 @@ ATM bank API
 ### Backend
 
 - Express as web framework
-- PostgreSQL database
+- PostgreSQL database + Sequelize ORM
 - Endpoints:
-    - viewAccounts. 
+    - viewAccounts
         - GET
-        - Params: cardNumber
+        - Params: cardNumber, pinCode
         - Response: list of accounts
-    - viewTransactions. 
+    - viewTransactions
         - GET
-        - Params: cardNumber, accountNumber
+        - Params: cardNumber, accountNumber, pinCode
         - Response: list of transactions for that account
-    - withdrawMoney.
+    - withdrawMoney
         - POST
-        - Params: cardNumber, otherEntity, amount
+        - Params: cardNumber, otherEntity, amount, pinCode
         - Response: result (ok or not)
-    - depositMoney.
+    - depositMoney
         - POST
-        - Params: cardNumber, otherEntity
+        - Params: cardNumber, otherEntity, pinCode
         - Response: result (ok or not)
-    - transferMoney. 
+    - transferMoney
         - POST
-        - Params: cardNumber, destAccount, amount
+        - Params: cardNumber, destAccount, amount, pinCode
         - Response: fee, result
-    - activateCard. 
+    - activateCard
         - POST
-        - Params: cardNumber
+        - Params: cardNumber, pinCode
         - Response: result
-    - setPinCode. 
+    - setPinCode
         - POST
-        - Params: cardNumber, newPin
+        - Params: cardNumber, oldPinCode, newPinCode
         - Response: result
-    - viewMaxCredit. 
+    - viewMaxCredit
         - GET
-        - Params: cardNumber
+        - Params: cardNumber, pinCode
         - Response: maxCredit
-    - setMaxCredit. 
+    - setMaxCredit
         - POST
-        - Params: cardNumber, maxCredit
+        - Params: cardNumber, maxCredit, pinCode
         - Response: result
 - Database entities:
-    - cards. Fields: number, type, maxCredit, linkedAccount, active
-    - accounts. Fields: iban, balance
-    - transactions. Fields: createdAt, type, amount
+    - Person
+        - Fields: id
+    - Card. 
+        - Fields: id, number, type, maxCredit, active (boolean)
+    - Account. 
+        - Fields: id, iban, balance
+    - Transaction. 
+        - Fields: id, type, amount, timestamps
+- Database relationships
+    - A Person owns multiple Accounts
+    - A Person owns multiple Cards
+    - A Card is linked to one Account
+    - Transactions are linked to an Account
+- Other considerations:
+    - Using bcrypt to hash the PIN code (to avoid storing it as plain text)
 
 
 
