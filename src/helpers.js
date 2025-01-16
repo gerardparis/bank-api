@@ -1,8 +1,10 @@
 const bcrypt = require('bcrypt');
 
+const SALT_ROUNDS = 10;
+
 const verifyPin = async (cardNumber, inputPin) => {
     try {
-      const card = await Card.findOne({ where: { number: cardNumber } });
+      const card = await db.Card.findOne({ where: { number: cardNumber } });
       if (!card) {
         return { success: false, message: 'Card not found' };
       }
@@ -19,4 +21,9 @@ const verifyPin = async (cardNumber, inputPin) => {
     }
   };
 
-  module.exports = { verifyPin };
+const hashPin = async (pin) => {
+    const hashedPin = await bcrypt.hash(pin, SALT_ROUNDS);
+    return hashedPin;
+};
+
+module.exports = { verifyPin, hashPin };

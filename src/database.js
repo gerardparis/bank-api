@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
-const bcrypt = require('bcrypt');
+const helpers = require('./helpers.js');
 const sequelize = new Sequelize(process.env.DB_SCHEMA || 'postgres',
     process.env.DB_USER || 'postgres',
-    process.env.DB_PASSWORD || '',
+    process.env.DB_PASSWORD || 'postgres',
     {
         host: process.env.DB_HOST || 'localhost',
         port: process.env.DB_PORT || 5432,
@@ -88,13 +88,13 @@ const Card = sequelize.define('Card', {
 // Hook to hash PIN before saving a card
 Card.beforeCreate(async (card) => {
   if (card.hashedPin) {
-    card.hashedPin = await bcrypt.hash(card.hashedPin, 10); // Hash the PIN with a salt factor of 10
+    card.hashedPin = await helpers.hashPin(card.hashedPin);
   }
 });
 
 Card.beforeUpdate(async (card) => {
   if (card.changed('hashedPin')) {
-    card.hashedPin = await bcrypt.hash(card.hashedPin, 10); // Rehash the PIN if it has changed
+    card.hashedPin = await helpers.hashPin(card.hashedPin);
   }
 });
 

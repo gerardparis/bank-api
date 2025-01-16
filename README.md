@@ -70,8 +70,11 @@ ATM bank API
 - Start the app:
     ``docker compose up``
 
-- Execute the migrations to create the table
+- Execute the migrations to create the tables
     ``npm run migrate``
+
+- Populate database with test data:
+    ``npm run populate``
 
 
 
