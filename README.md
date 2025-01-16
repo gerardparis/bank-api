@@ -62,6 +62,14 @@ ATM bank API
 - Other considerations:
     - Using bcrypt to hash the PIN code (to avoid storing it as plain text)
 
+### Deployment
+    Run tests
+
+    ```docker compose run bank-api npm test```
+
+    Start the app:
+
+    ```docker compose up```
 
 
 
