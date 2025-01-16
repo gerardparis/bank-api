@@ -9,15 +9,42 @@ ATM bank API
 - Express as web framework
 - PostgreSQL database
 - Endpoints:
-    - viewAccounts. Params: cardNumber
-    - viewTransactions. Params: cardNumber, accountNumber
-    - withdrawMoney. Params: cardNumber, otherEntity, amount
-    - depositMoney. Params: cardNumber, otherEntity
-    - transferMoney. Params: cardNumber, destAccount, amount
-    - activateCard. Params: cardNumber
-    - setPinCode. Params: cardNumber, newPin
-    - viewMaxCredit. Params: cardNumber
-    - setMaxCredit. Params: cardNumber, maxCredit
+    - viewAccounts. 
+        - GET
+        - Params: cardNumber
+        - Response: list of accounts
+    - viewTransactions. 
+        - GET
+        - Params: cardNumber, accountNumber
+        - Response: list of transactions for that account
+    - withdrawMoney.
+        - POST
+        - Params: cardNumber, otherEntity, amount
+        - Response: result (ok or not)
+    - depositMoney.
+        - POST
+        - Params: cardNumber, otherEntity
+        - Response: result (ok or not)
+    - transferMoney. 
+        - POST
+        - Params: cardNumber, destAccount, amount
+        - Response: fee, result
+    - activateCard. 
+        - POST
+        - Params: cardNumber
+        - Response: result
+    - setPinCode. 
+        - POST
+        - Params: cardNumber, newPin
+        - Response: result
+    - viewMaxCredit. 
+        - GET
+        - Params: cardNumber
+        - Response: maxCredit
+    - setMaxCredit. 
+        - POST
+        - Params: cardNumber, maxCredit
+        - Response: result
 - Database entities:
     - cards. Fields: number, type, maxCredit, linkedAccount, active
     - accounts. Fields: iban, balance
